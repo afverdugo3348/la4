@@ -18,11 +18,17 @@ public class Servidor {
    	Properties prop = new Properties();
    	OutputStream output = null; 	
 
-   	int puerto = Integer.parseInt(args[0]);
-      DatagramSocket socketUDP = new DatagramSocket(puerto);
+   	int puerto = 6060;
+	if(args.length > 0)
+	{
+		puerto = Integer.parseInt(args[0]);
+	}
+	
+	DatagramSocket socketUDP = new DatagramSocket(puerto);
       byte[] bufer = new byte[1000];
 
-      while (true) {
+      while (true) 
+      {
         // Construimos el DatagramPacket para recibir peticiones
         DatagramPacket peticion =
           new DatagramPacket(bufer, bufer.length);

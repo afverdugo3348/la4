@@ -37,7 +37,7 @@ public class UDPclient2
 			for (int i = 0; i < numObjetosEnviar; i++) 
 			{
 				byte[] sendData = new byte[1024];
-				//byte[] receiveData = new byte[1024];
+				byte[] receiveData = new byte[1024];
 				Date date  = new Date();
 				DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 				String marcaTiempo = hourdateFormat.format(date);
@@ -47,18 +47,16 @@ public class UDPclient2
 				sendData = toByteArray(objetoString.trim());
 				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, puerto);
 				clientSocket.send(sendPacket);
-				/**
 				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				clientSocket.receive(receivePacket);
 				String modifiedSentence = new String(receivePacket.getData());
-				System.out.println("FROM SERVER:" + modifiedSentence);*/
+				System.out.println("FROM SERVER:" + modifiedSentence);
+				System.out.println();
 			}
 
 			System.out.println();
 			System.out.println("Se han enviado todos los objetos");
 			System.out.println();
-
-			// AJUSTAR EL TAMAÑO DEL BUFFER DE ENVIO Y DE RECEPCION
 			
 			boolean salir = false;
 			while(!salir)
