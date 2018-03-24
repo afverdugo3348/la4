@@ -37,7 +37,7 @@ public class UDPclient
 			for (int i = 0; i < numObjetosEnviar; i++) 
 			{
 				byte[] sendData = new byte[1024];
-				//byte[] receiveData = new byte[1024];
+				byte[] receiveData = new byte[1024];
 				Date date  = new Date();
 				DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 				String marcaTiempo = hourdateFormat.format(date);
@@ -47,11 +47,12 @@ public class UDPclient
 				sendData = toByteArray(objetoString.trim());
 				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, puerto);
 				clientSocket.send(sendPacket);
-				/**
+				
 				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				clientSocket.receive(receivePacket);
 				String modifiedSentence = new String(receivePacket.getData());
-				System.out.println("FROM SERVER:" + modifiedSentence);*/
+				System.out.println("FROM SERVER:" + modifiedSentence);
+				System.out.println();
 			}
 			
 			clientSocket.close(); 

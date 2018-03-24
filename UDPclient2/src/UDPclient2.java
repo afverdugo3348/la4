@@ -41,8 +41,10 @@ public class UDPclient2
 				Date date  = new Date();
 				DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 				String marcaTiempo = hourdateFormat.format(date);
+				String num =""+(i+1);
 				ObjetoEnviar objetoEnviar = new ObjetoEnviar((i+1), marcaTiempo);
-				sendData = toByteArray(objetoEnviar);
+				String objetoString = num+"!"+numObjetosEnviar+"!"+marcaTiempo.toString();
+				sendData = toByteArray(objetoString.trim());
 				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, puerto);
 				clientSocket.send(sendPacket);
 				/**
@@ -64,42 +66,47 @@ public class UDPclient2
 				System.out.println("Presione 1 para ajustar el tamaño del buffer de envío");
 				System.out.println("Presione 2 para ajustar el tamaño del buffer de recepción");
 				System.out.println("Presione 3 para recibir un archivo por parte del servidor");
+				System.out.println("Presione 4 para terminar");
 				
-				int opcion = inFromUser.read();
-				if(opcion == 3)
+				int o = Integer.parseInt(inFromUser.readLine());
+				if(o == 3)
 				{
-					salir = true;
+					// RECIBIR EL ARCHIVO Y ALMACENARLO EN DISCO
+					byte[] buf = new byte[1024];
+					DatagramPacket packet = new DatagramPacket(buf, buf.length);
+					clientSocket.receive(packet);
+					//APLICAR HASH
+					
+					// reportar si el archivo está completo y correcto y el tiempo total de transferencia
+					
+					//FALTA MEDIR EL TIEMPO DE TRANSFERENCIA
+					
+					buf = packet.getData();
+					FileOutputStream fos = new FileOutputStream(new File("./data/archivoRecibido.txt"));
+					fos.write(buf);
+					fos.close();
+					
+					System.out.println();
+					System.out.println("Archivo recibido con exito, busque en la carpeta data");
+					System.out.println();
 				}
-				else if(opcion == 2)
+				else if(o == 2)
 				{
 					System.out.println("Digte el nuevo tamaño del buffer de recepción");
 					int newSize = inFromUser.read();
 					clientSocket.setReceiveBufferSize(newSize);
 				}
-				else if(opcion == 1)
+				else if(o == 1)
 				{
 					System.out.println("Digte el nuevo tamaño del buffer de envío");
 					int newSize = inFromUser.read();
 					clientSocket.setSendBufferSize(newSize);
 				}
+				else if(o == 4)
+				{
+					break;
+				}
 			}
-			
-			// RECIBIR EL ARCHIVO Y ALMACENARLO EN DISCO
-			
-			byte[] buf = new byte[1024];
-			DatagramPacket packet = new DatagramPacket(buf, buf.length);
-			clientSocket.receive(packet);
-			
-			//FALTA MEDIR EL TIEMPO DE TRANSFERENCIA
-			
-			buf = packet.getData();
-			FileOutputStream fos = new FileOutputStream(new File("./data/archivoRecibido.txt"));
-			fos.write(buf);
-			fos.close();
-			
-			//APLICAR HASH
-			
-			// reportar si el archivo está completo y correcto y el tiempo total de transferencia
 
 			clientSocket.close(); 
 		}

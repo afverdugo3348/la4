@@ -66,8 +66,7 @@ public class Servidor {
         		}
         	}
         	System.out.println("Número de objetos recibidos: "+contador1);
-        	System.out.println("Número de objetos perdidos: "+contador);
-        	System.out.println();
+        	System.out.println("Número de objetos perdidos: "+contador);        	
         }
     	//Respuesta
         DatagramPacket respuesta =
