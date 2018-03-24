@@ -8,14 +8,18 @@ import java.io.*;
 public class Servidor {
 
 
-  public static void main (String args[]) throws ParseException {
+  public static void main (String args[]) throws ParseException 
+  {
+	  
+	  System.out.println("------------- UDP SERVER ------------");
 
     try {
     	
    	Properties prop = new Properties();
    	OutputStream output = null; 	
 
-      DatagramSocket socketUDP = new DatagramSocket(6789);
+   	int puerto = Integer.parseInt(args[0]);
+      DatagramSocket socketUDP = new DatagramSocket(puerto);
       byte[] bufer = new byte[1000];
 
       while (true) {
@@ -43,7 +47,7 @@ public class Servidor {
         Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(obj.split("!")[2]);
                 System.out.println("La resta es: " + (llegada.getTime()-date1.getTime()));
 
- 		prop.setProperty(num, (llegada.getTime()-date1.getTime())+"" );
+ 		prop.setProperty(num, (llegada.getTime()-date1.getTime())+"" + " ms");
 
 		// save properties to project root folder
 		prop.store(output, null);
